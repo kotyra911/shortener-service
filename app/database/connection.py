@@ -1,16 +1,19 @@
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, declarative_base
+from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine,async_sessionmaker
 from app.config import DBSettings, lg
 
 
-engine = create_engine(DBSettings.SQLALCHEMY_DATA_BASE_URL)
+engine = create_async_engine(DBSettings.SQLALCHEMY_DATA_BASE_URL, echo=True)
 
-Session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+AsyncSessionLocal = async_sessionmaker(
+    bind=engine,
+    class_=AsyncSession,
+    expire_on_commit=False,
+)
 
 async def get_db():
-    try:
-        db = Session()
-        yield db
+    async with AsyncSessionLocal() as db:
+        try:
+            yield db
 
-    except Exception as error:
-        lg.error(f"Error while trying get db ->: {error}")
+        except Exception as error:
+            lg.error(f"Error while trying get db ->: {error}")

@@ -7,7 +7,7 @@ load_dotenv()
 
 lg = logging.getLogger()
 
-# Переменные подключения к бд
+# Variables for db connection
 class DBSettings:
     DB_USER = os.getenv('DB_USER')
     DB_PASSWORD = os.getenv('DB_PASSWORD')
@@ -18,5 +18,8 @@ class DBSettings:
     SQLALCHEMY_DATA_BASE_URL = (
         f'postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}'
     )
+
+
+BASE_URL = "http://127.0.0.1:8000/"
 
 

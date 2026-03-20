@@ -20,9 +20,11 @@ class LinksRepository:
 
         try:
             await self.db.execute(stmt)
+            await self.db.commit()
 
         except Exception as error:
             lg.error(f"Error while trying to insert link ->:{error}")
+            await self.db.rollback()
 
     # Get redirect link by short
     async def get_redirect_link(self, short_link: str) -> str:
@@ -40,6 +42,7 @@ class LinksRepository:
         except Exception as error:
 
             lg.error(f"Error while trying to get redirect link ->:{error}")
+            await self.db.rollback()
             return ""
 
     # Increases the number of clicks by 1
@@ -53,9 +56,11 @@ class LinksRepository:
 
         try:
             await self.db.execute(stmt)
+            await self.db.commit()
 
         except Exception as error:
             lg.error(f"Error while trying to update clicks ->:{error}")
+            await self.db.rollback()
 
     # Get clicks number
     async def  get_link_stats(self, short_link: str) -> int:
@@ -71,4 +76,5 @@ class LinksRepository:
 
         except Exception as error:
             lg.error(f"Error while trying to get clicks ->:{error}")
+            await self.db.rollback()
             return 0
