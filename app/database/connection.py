@@ -13,4 +13,4 @@ async def get_db():
         yield db
 
     except Exception as error:
-        lg.error(f"Error while try get db ->: {error}")
+        lg.error(f"Error while trying get db ->: {error}")
