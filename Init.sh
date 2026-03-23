@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 set -e
 
 DB_TEST="${POSTGRES_DB}_test"
