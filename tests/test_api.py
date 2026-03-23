@@ -22,7 +22,7 @@ async def setup():
 async def test_shorten_link():
     async with AsyncClient(
         transport=ASGITransport(app=app),
-        base_url=settings.TEST_BASE_URL,
+        base_url=settings.BASE_URL,
         ) as ac:
 
         link_without_http = {
@@ -38,7 +38,7 @@ async def test_shorten_link():
         assert "short_link" in r_data
         assert isinstance(r_data["short_link"], str)
 
-        short_key = r_data["short_link"].removeprefix(settings.TEST_BASE_URL)
+        short_key = r_data["short_link"].removeprefix(settings.BASE_URL)
 
         assert len(short_key) == 6
 
@@ -47,7 +47,7 @@ async def test_shorten_link():
 async def test_shorten_link_with_http():
     async with AsyncClient(
         transport=ASGITransport(app=app),
-        base_url=settings.TEST_BASE_URL,
+        base_url=settings.BASE_URL,
     ) as ac:
 
         link_with_http = {
@@ -62,7 +62,7 @@ async def test_shorten_link_with_http():
 
         assert "short_link" in r_data
 
-        short_key = r_data["short_link"].removeprefix(settings.TEST_BASE_URL)
+        short_key = r_data["short_link"].removeprefix(settings.BASE_URL)
 
         assert len(short_key) == 6
 
@@ -71,7 +71,7 @@ async def test_shorten_link_with_http():
 async def test_redirect_user():
     async with AsyncClient(
         transport=ASGITransport(app=app),
-        base_url=settings.TEST_BASE_URL,
+        base_url=settings.BASE_URL,
         follow_redirects=False,
     ) as ac:
 
@@ -83,7 +83,7 @@ async def test_redirect_user():
 
         r_data = response.json()
 
-        short_key = r_data["short_link"].removeprefix(settings.TEST_BASE_URL)
+        short_key = r_data["short_link"].removeprefix(settings.BASE_URL)
 
         redirect_response = await ac.get(f"/{short_key}",follow_redirects=False)
 
@@ -94,7 +94,7 @@ async def test_redirect_user():
 async def test_redirect_not_found():
     async with AsyncClient(
         transport=ASGITransport(app=app),
-        base_url=settings.TEST_BASE_URL,
+        base_url=settings.BASE_URL,
         follow_redirects=False,
     ) as ac:
 
@@ -107,7 +107,7 @@ async def test_redirect_not_found():
 async def test_get_link_stats():
     async with AsyncClient(
         transport=ASGITransport(app=app),
-        base_url=settings.TEST_BASE_URL,
+        base_url=settings.BASE_URL,
         follow_redirects=False,
     ) as ac:
 
@@ -118,7 +118,7 @@ async def test_get_link_stats():
         assert response.status_code == 200
 
         short_link = response.json()["short_link"]
-        short_key = short_link.removeprefix(settings.TEST_BASE_URL)
+        short_key = short_link.removeprefix(settings.BASE_URL)
 
         for _ in range(3):
             await ac.get(f"/{short_key}")
@@ -137,7 +137,7 @@ async def test_get_link_stats():
 async def test_get_link_stats_not_found():
     async with AsyncClient(
         transport=ASGITransport(app=app),
-        base_url=settings.TEST_BASE_URL,
+        base_url=settings.BASE_URL,
     ) as ac:
 
         response = await ac.get("/stats/unknown-request-test")
