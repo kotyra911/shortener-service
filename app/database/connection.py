@@ -6,12 +6,10 @@ from sqlalchemy.pool import NullPool, QueuePool
 DB_URL = settings.DB_URL
 
 if settings.MODE == "TEST":
-    pool_class = NullPool
+    engine = create_async_engine(DB_URL, echo=True, poolclass=NullPool)
 
 else:
-    pool_class = QueuePool
-
-engine = create_async_engine(DB_URL, echo=True, poolclass=pool_class)
+    engine = create_async_engine(DB_URL, echo=True)
 
 AsyncSessionLocal = async_sessionmaker(
     bind=engine,
