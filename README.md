@@ -1,42 +1,41 @@
 # 🔗 URL Shortener Service
 
-Простой и удобный сервис для сокращения ссылок с поддержкой Docker и тестового режима.
+A simple and convenient URL shortening service with Docker support and a test environment.
 
 ---
 
-## 🚀 Быстрый старт с Docker
+## 🚀 Quick Start with Docker
 
-Следуйте этим шагам, чтобы развернуть проект локально:
+Follow these steps to run the project locally:
 
-### 1. Клонировать репозиторий
-
+### 1. Clone the repository
 
 ```bash
-cd <удобная для вас папка>
+cd <your preferred directory>
 git clone https://github.com/kotyra911/shortener-service.git
-```
+````
 
-### 2. Создать файлы окружения
+### 2. Create environment files
 
-В корне проекта создайте файлы `.env` и `.test.env`  на основе примера:
+In the project root, create `.env` and `.test.env` files based on the example:
 
 ```bash
 .env.example
 ```
 
-Обратите внимание на то, что имя для тестовой базы нужно указать такое же имя как для рабочей, только с префиксом **_test**
+Note that the test database name should be the same as the main one, but with the **_test** prefix.
 
 ---
 
-## ▶️ Запуск проекта
+## ▶️ Running the Project
 
-Собрать и запустить сервис:
+Build and start the service:
 
 ```bash
 docker compose up --build
 ```
 
-Остановить выполнение можно через:
+To stop the process:
 
 ```bash
 Ctrl + C
@@ -44,9 +43,9 @@ Ctrl + C
 
 ---
 
-## 🧪 Запуск тестов
+## 🧪 Running Tests
 
-Для запуска тестов используйте:
+To run tests, use:
 
 ```bash
 docker compose run --rm web pytest
@@ -54,9 +53,9 @@ docker compose run --rm web pytest
 
 ---
 
-## ⛔ Остановка контейнеров
+## ⛔ Stopping Containers
 
-Полностью остановить и удалить контейнеры:
+To completely stop and remove containers:
 
 ```bash
 docker compose down
@@ -64,25 +63,25 @@ docker compose down
 
 ---
 
-## 📌 Описание
+## 📌 Description
 
-Данный сервис предоставляет API для сокращения длинных URL-адресов.
-Позволяет генерировать короткие ссылки и перенаправлять пользователей на оригинальные адреса.
-
----
-
-## 💡 Возможности
-
-* Создание коротких ссылок
-* Редирект на оригинальный URL
-* Узнать количество переходов по конкретной ссылке
-* Поддержка Docker
-* Отдельное тестовое окружение
-* Простое масштабирование
+This service provides an API for shortening long URLs.
+It allows you to generate short links and redirect users to the original addresses.
 
 ---
 
-## 🛠️ Основные технологии
+## 💡 Features
+
+* Create short links
+* Redirect to the original URL
+* Track the number of clicks for each link
+* Docker support
+* Separate test environment
+* Easy scalability
+
+---
+
+## 🛠️ Tech Stack
 
 * Python
 * FastAPI
