@@ -5,7 +5,7 @@ from sqlalchemy.exc import IntegrityError
 
 # Mock settings before importing Shortener
 class MockSettings:
-    BASE_URL = "http://test.com/"
+    BASE_URL = "http://127.0.0.1:8000/"
 
 mock_config = type('mock', (), {
     'settings': MockSettings(),
@@ -39,8 +39,8 @@ async def test_shorten_valid_https_url():
     result = await shortener.shorten("https://www.google.com")
     
     assert result is not None
-    assert result.startswith("http://test.com/")
-    assert len(result) == len("http://test.com/") + 6
+    assert result.startswith("http://127.0.0.1:8000/")
+    assert len(result) == len("http://127.0.0.1:8000/") + 6
     db.commit.assert_called_once()
 
 
@@ -55,8 +55,8 @@ async def test_shorten_valid_http_url():
     result = await shortener.shorten("http://github.com")
     
     assert result is not None
-    assert result.startswith("http://test.com/")
-    assert len(result) == len("http://test.com/") + 6
+    assert result.startswith("http://127.0.0.1:8000/")
+    assert len(result) == len("http://127.0.0.1:8000/") + 6
 
 
 # Test URL without protocol
@@ -70,7 +70,7 @@ async def test_shorten_url_without_protocol():
     result = await shortener.shorten("example.com")
     
     assert result is not None
-    assert result.startswith("http://test.com/")
+    assert result.startswith("http://127.0.0.1:8000/")
     assert repo.add_link_calls[0][0] == "http://example.com"
 
 
@@ -84,7 +84,7 @@ async def test_shorten_generates_6_char_key():
     
     result = await shortener.shorten("https://github.com")
     
-    short_key = result.replace("http://test.com/", "")
+    short_key = result.replace("http://127.0.0.1:8000/", "")
     assert len(short_key) == 6
     assert short_key.isalnum()
 
@@ -118,7 +118,7 @@ async def test_compose_url_builds_correct_url():
     shortener = Shortener(links_repo=repo)
     
     result = shortener._compose_url("abc123")
-    assert result == "http://test.com/abc123"
+    assert result == "http://127.0.0.1:8000/abc123"
 
 
 # Test generate_random_string
@@ -167,7 +167,7 @@ async def test_shorten_with_complex_urls():
     for url in test_urls:
         result = await shortener.shorten(url)
         assert result is not None
-        assert result.startswith("http://test.com/")
+        assert result.startswith("http://127.0.0.1:8000/")
 
 
 # Integration test
@@ -181,8 +181,8 @@ async def test_shorten_complete_flow():
     original = "github.com"
     result = await shortener.shorten(original)
     
-    assert result.startswith("http://test.com/")
-    short_key = result.replace("http://test.com/", "")
+    assert result.startswith("http://127.0.0.1:8000/")
+    short_key = result.replace("http://127.0.0.1:8000/", "")
     assert len(short_key) == 6
     assert repo.add_link_calls[0][0] == "http://github.com"
     assert repo.add_link_calls[0][1] == short_key
